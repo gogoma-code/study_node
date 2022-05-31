@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/lyk-brave/study_node#readme",
   "dependencies": {
+    "mariadb": "^3.0.0",
+    "mysql": "^2.18.1",
     "sanitize-html": "^2.7.0"
   }
 }

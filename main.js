@@ -5,6 +5,15 @@ const qs = require('querystring');
 const template = require('./lib/template');
 const path = require('path');
 const sanitizeHtml = require('sanitize-html');
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'yk2201',
+  database : 'opentutorials'
+});
+db.connect();
 
 var app = http.createServer((request, response) => {
   var _url = request.url;
@@ -14,10 +23,22 @@ var app = http.createServer((request, response) => {
   if (pathname === '/') {
     var filelist = fs.readdirSync('./data');
     if (queryData.id === undefined) {
-      fs.readFile(`data/${queryData.id}`, 'utf8', (err, description) => {
+      /* fs.readFile(`data/${queryData.id}`, 'utf8', (err, description) => {
         var title = 'Welcome';
         var description = 'Hello, Node.js';
         var list = template.list(filelist);
+        var html = template.html(title, list
+          , `<h2>${title}</h2>${description}`
+          , `<a href="/create">create</a>`
+        );
+
+        response.writeHead(200);
+        response.end(html);
+      }); */
+      db.query(`SELECT * FROM topic`, (error, topics) => {
+        var title = 'Welcome';
+        var description = 'Hello, Node.js';
+        var list = template.list(topics);
         var html = template.html(title, list
           , `<h2>${title}</h2>${description}`
           , `<a href="/create">create</a>`
