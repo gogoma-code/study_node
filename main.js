@@ -3,6 +3,7 @@ const url = require('url');
 const qs = require('querystring');
 
 const topic = require('./lib/topic');
+const author = require('./lib/author');
 
 var app = http.createServer((request, response) => {
   var _url = request.url;
@@ -25,6 +26,16 @@ var app = http.createServer((request, response) => {
     topic.update_process(request, response);
   } else if (pathname === '/delete_process') {
     topic.delete_process(request, response);
+  } else if(pathname === '/author') {
+    author.home(request, response);
+  } else if(pathname === '/author/create_process') {
+    author.create_process(request, response);
+  } else if(pathname === '/author/update') {
+    author.update(request, response, queryData);
+  } else if(pathname === '/author/update_process') {
+    author.update_process(request, response);
+  } else if(pathname === '/author/delete_process') {
+    author.delete_process(request, response);
   } else {
     response.writeHead(404);
     response.end('Not found');
