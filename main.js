@@ -1,5 +1,4 @@
 const fs = require('fs');
-
 const express = require('express');
 const app = express();
 
@@ -10,6 +9,7 @@ const topic = require('./lib/topic');
 
 const topicRouter = require('./routes/topic');
 const authorRouter = require('./routes/author');
+const loginRouter = require('./routes/login');
 
 app.use(express.static('public')); // public 안에서 찾겠다.
 app.use(express.urlencoded({ extended: false }));
@@ -22,8 +22,10 @@ app.use((request, response, next) => {
   })
 });
 
+app.use('/login', loginRouter);
 app.use('/topic', topicRouter);
 app.use('/author', authorRouter);
+
 app.get('/', (request, response) => {
   topic.home(request, response);
 });
